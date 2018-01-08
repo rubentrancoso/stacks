@@ -97,7 +97,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100
+    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --idx 1
 
   server_2:
     image: dgraph/dgraph:latest
@@ -116,7 +116,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200
+    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --idx 1
 
 
   server_3:
@@ -136,7 +136,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300
+    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --idx 1
     
 # ---------------------------------------------------------
 
