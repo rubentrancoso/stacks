@@ -30,6 +30,7 @@ services:
     volumes:
       - dgraphzero-volume:/dgraph
     ports:
+      - 5080:5080
       - 6080:6080      
     networks:
       - dgraph
