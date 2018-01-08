@@ -22,7 +22,9 @@ networks:
 
 volumes:
   dgraphzero-volume:
-  dgraphserver-volume:
+  dgraphserver1-volume:
+  dgraphserver2-volume:
+  dgraphserver3-volume:  
   
 services:
   zero:
@@ -86,7 +88,7 @@ services:
     image: dgraph/dgraph:latest
     hostname: "server_1"
     volumes:
-      - dgraphserver-volume:/dgraph
+      - dgraphserver1-volume:/dgraph
     ports:
       - 7180:7180
       - 8180:8180
@@ -106,7 +108,7 @@ services:
     image: dgraph/dgraph:latest
     hostname: "server_2"
     volumes:
-      - dgraphserver-volume:/dgraph
+      - dgraphserver2-volume:/dgraph
     ports:    
       - 7280:7280
       - 8280:8280
@@ -127,7 +129,7 @@ services:
     image: dgraph/dgraph:latest
     hostname: "server_3"
     volumes:
-      - dgraphserver-volume:/dgraph
+      - dgraphserver3-volume:/dgraph
     ports:   
       - 7380:7380
       - 8380:8380
