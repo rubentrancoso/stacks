@@ -86,6 +86,7 @@ services:
     volumes:
       - dgraphserver-volume:/dgraph
     ports:
+      - 7180:7180
       - 8180:8180
     networks:
       - dgraph
@@ -102,6 +103,7 @@ services:
     volumes:
       - dgraphserver-volume:/dgraph
     ports:    
+      - 7280:7280
       - 8280:8280
     networks:
       - dgraph
@@ -119,6 +121,7 @@ services:
     volumes:
       - dgraphserver-volume:/dgraph
     ports:   
+      - 7380:7380
       - 8380:8380
     networks:
       - dgraph
