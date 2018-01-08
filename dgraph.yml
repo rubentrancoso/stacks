@@ -22,9 +22,7 @@ networks:
 
 volumes:
   dgraphzero-volume:
-  dgraphserver1-volume:
-  dgraphserver2-volume:
-  dgraphserver3-volume:
+  dgraphserver-volume:
   
 services:
   zero:
@@ -42,7 +40,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph zero --port_offset -2000 --my=zero:5080 --bindall=true
+    command: dgraph zero --port_offset -2000 --my=zero:5080 --bindall=true --replicas 3
     
 # ---------------------------------------------------------    
 
@@ -87,7 +85,7 @@ services:
     image: dgraph/dgraph:latest
     hostname: "server_1"
     volumes:
-      - dgraphserver1-volume:/dgraph
+      - dgraphserver-volume:/dgraph
     ports:
       - 7180:7180
       - 8180:8180
@@ -101,13 +99,13 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --idx 10 --debugmode --bindall=true
+    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --debugmode --bindall=true
 
   server_2:
     image: dgraph/dgraph:latest
     hostname: "server_2"
     volumes:
-      - dgraphserver2-volume:/dgraph
+      - dgraphserver-volume:/dgraph
     ports:    
       - 7280:7280
       - 8280:8280
@@ -121,14 +119,14 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --idx 20 --debugmode --bindall=true
+    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --debugmode --bindall=true
 
 
   server_3:
     image: dgraph/dgraph:latest
     hostname: "server_3"
     volumes:
-      - dgraphserver3-volume:/dgraph
+      - dgraphserver-volume:/dgraph
     ports:   
       - 7380:7380
       - 8380:8380
@@ -142,7 +140,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --idx 30 --debugmode --bindall=true
+    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --debugmode --bindall=true
     
 # ---------------------------------------------------------
 
