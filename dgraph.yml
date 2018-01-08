@@ -40,7 +40,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph zero --port_offset -2000 --my=zero:5080 --idx 1
+    command: dgraph zero --port_offset -2000 --my=zero:5080
     
 # ---------------------------------------------------------    
 
@@ -99,7 +99,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --idx 1
+    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100
 
   server_2:
     image: dgraph/dgraph:latest
@@ -119,7 +119,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --idx 1
+    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200
 
 
   server_3:
@@ -140,7 +140,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --idx 1
+    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300
     
 # ---------------------------------------------------------
 
