@@ -84,7 +84,7 @@ services:
 #      --config string         Configuration file. Takes precedence over default values, but is overridden to values set with environment variables and flags.
 #      --profile_mode string   Enable profiling mode, one of [cpu, mem, mutex, block]
 
-  server_1:
+  servera:
     image: dgraph/dgraph:master
     hostname: "servera"
     volumes:
