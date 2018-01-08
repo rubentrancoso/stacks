@@ -94,7 +94,9 @@ services:
       - 8180:8180
       - 9180:9180
     networks:
-      - dgraph
+      dgraph:
+        aliases:
+          - server1 
     restart: always  
     deploy:
       placement:
@@ -161,4 +163,4 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph-ratel -addr server_1:8180 
+    command: dgraph-ratel -addr server1:8180 
