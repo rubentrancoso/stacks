@@ -142,7 +142,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --idx 20 --debugmode --bindall=true
+    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --idx 30 --debugmode --bindall=true
     
 # ---------------------------------------------------------
 
