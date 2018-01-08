@@ -88,6 +88,7 @@ services:
     ports:
       - 7180:7180
       - 8180:8180
+      - 9180:9180
     networks:
       - dgraph
     deploy:
@@ -105,6 +106,7 @@ services:
     ports:    
       - 7280:7280
       - 8280:8280
+      - 9280:9280
     networks:
       - dgraph
     deploy:
@@ -123,6 +125,7 @@ services:
     ports:   
       - 7380:7380
       - 8380:8380
+      - 9380:9380
     networks:
       - dgraph
     deploy:
