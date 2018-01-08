@@ -21,16 +21,16 @@ networks:
   dgraph:
 
 volumes:
-  dgraphzero-volume:
-  dgraphservera-volume:
-  dgraphserverb-volume:
-  dgraphserverc-volume:  
+  vgraphzero:
+  vgrapha:
+  vgraphb:
+  vgraphc:
   
 services:
   zero:
     image: dgraph/dgraph:master
     volumes:
-      - dgraphzero-volume:/dgraph
+      - vgraphzero:/dgraph
     ports:
       - 5080:5080
       - 6080:6080      
@@ -88,11 +88,11 @@ services:
     image: dgraph/dgraph:master
     hostname: "servera"
     volumes:
-      - dgraphservera-volume:/dgraph
+      - vgrapha:/dgraph
     ports:
-      - 7180:7180
-      - 8180:8180
-      - 9180:9180
+      - 7180:7080
+      - 8180:8080
+      - 9180:9080
     networks:
       dgraph:
     restart: always  
@@ -102,17 +102,17 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=servera:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --debugmode --bindall=true --idx=2
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=2
 
   serverb:
     image: dgraph/dgraph:master
     hostname: "serverb"
     volumes:
-      - dgraphserverb-volume:/dgraph
+      - vgraphb:/dgraph
     ports:    
-      - 7280:7280
-      - 8280:8280
-      - 9280:9280
+      - 7280:7080
+      - 8280:8080
+      - 9280:9080
     networks:
       - dgraph
     restart: always  
@@ -122,18 +122,18 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=serverb:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --debugmode --bindall=true --idx=3
+    command: dgraph server --my=serverb:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=3
 
 
   serverc:
     image: dgraph/dgraph:master
     hostname: "serverc"
     volumes:
-      - dgraphserverc-volume:/dgraph
+      - vgraphc:/dgraph
     ports:   
-      - 7380:7380
-      - 8380:8380
-      - 9380:9380
+      - 7380:7080
+      - 8380:8080
+      - 9380:9080
     networks:
       - dgraph
     restart: always  
@@ -143,7 +143,7 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=serverc:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --debugmode --bindall=true --idx=4
+    command: dgraph server --my=serverc:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=4
     
 # ---------------------------------------------------------
 
