@@ -22,9 +22,9 @@ networks:
 
 volumes:
   dgraphzero-volume:
-  dgraphserver1-volume:
-  dgraphserver2-volume:
-  dgraphserver3-volume:  
+  dgraphservera-volume:
+  dgraphserverb-volume:
+  dgraphserverc-volume:  
   
 services:
   zero:
@@ -86,17 +86,15 @@ services:
 
   server_1:
     image: dgraph/dgraph:master
-    hostname: "server_1"
+    hostname: "servera"
     volumes:
-      - dgraphserver1-volume:/dgraph
+      - dgraphservera-volume:/dgraph
     ports:
       - 7180:7180
       - 8180:8180
       - 9180:9180
     networks:
       dgraph:
-        aliases:
-          - server1 
     restart: always  
     deploy:
       placement:
@@ -104,13 +102,13 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --debugmode --bindall=true
+    command: dgraph server --my=servera:7180 --memory_mb=2048 --zero=zero:5080 -o 100 --debugmode --bindall=true
 
-  server_2:
+  serverb:
     image: dgraph/dgraph:master
-    hostname: "server_2"
+    hostname: "serverb"
     volumes:
-      - dgraphserver2-volume:/dgraph
+      - dgraphserverb-volume:/dgraph
     ports:    
       - 7280:7280
       - 8280:8280
@@ -124,14 +122,14 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --debugmode --bindall=true
+    command: dgraph server --my=serverb:7280 --memory_mb=2048 --zero=zero:5080 -o 200 --debugmode --bindall=true
 
 
-  server_3:
+  serverc:
     image: dgraph/dgraph:master
-    hostname: "server_3"
+    hostname: "serverc"
     volumes:
-      - dgraphserver3-volume:/dgraph
+      - dgraphserverc-volume:/dgraph
     ports:   
       - 7380:7380
       - 8380:8380
@@ -145,13 +143,13 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --debugmode --bindall=true
+    command: dgraph server --my=serverc:7380 --memory_mb=2048 --zero=zero:5080 -o 300 --debugmode --bindall=true
     
 # ---------------------------------------------------------
 
-  server_ui:
+  serverui:
     image: dgraph/dgraph:master
-    hostname: "server_ui"
+    hostname: "serverui"
     ports:
       - 8481:8081
     networks:
@@ -163,4 +161,4 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph-ratel -addr server1:8180 
+    command: dgraph-ratel -addr servera:8180 
