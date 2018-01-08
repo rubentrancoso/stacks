@@ -33,7 +33,7 @@ services:
       - 6080:6080      
     networks:
       - dgraph
-    restart: on-failure  
+    restart: always  
     deploy:
       placement:
         constraints:
@@ -91,6 +91,7 @@ services:
       - 9180:9180
     networks:
       - dgraph
+    restart: always  
     deploy:
       placement:
         constraints:
@@ -109,6 +110,7 @@ services:
       - 9280:9280
     networks:
       - dgraph
+    restart: always  
     deploy:
       placement:
         constraints:
@@ -128,6 +130,7 @@ services:
       - 9380:9380
     networks:
       - dgraph
+    restart: always  
     deploy:
       placement:
         constraints:
@@ -144,6 +147,7 @@ services:
       - 8481:8081
     networks:
       - dgraph
+    restart: always  
     deploy:
       placement:
         constraints:
