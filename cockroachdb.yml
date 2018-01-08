@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  roach1:
+    image: cockroachdb/cockroach:latest
+    command: "start --insecure"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.role == worker'
+          - node.labels.dmz != true
+    ports:
+      - 8086:8080
+  roachN:
+    image: cockroachdb/cockroach:latest
+    command: "start --insecure --join=roach1,roachN"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - 'node.role == worker'
+          - node.labels.dmz != true
