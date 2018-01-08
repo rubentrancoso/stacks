@@ -161,4 +161,4 @@ services:
           - node.role == worker
           - node.labels.dmz != true
           - node.labels.name == worker1
-    command: dgraph-ratel --my=server_ui:8081     
+    command: dgraph-ratel -addr server_ui -port 8081    
