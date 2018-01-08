@@ -1,0 +1,146 @@
+#  dgraph zero [flags]
+#
+# Flags:
+#      --bindall           Use 0.0.0.0 instead of localhost to bind to all addresses on local machine. (default true)
+#  -h, --help              help for zero
+#      --idx uint          Unique node index for this server. (default 1)
+#      --my string         addr:port of this server, so other Dgraph servers can talk to this.
+#      --peer string       Address of another dgraphzero server.
+#  -o, --port_offset int   Value added to all listening port numbers. [Grpc=7080, HTTP=8080]
+#      --replicas int      How many replicas to run per data shard. The count includes the original shard. (default 1)
+#  -w, --wal string        Directory storing WAL. (default "zw")
+#
+# Global Flags:
+#      --block_rate int        Block profiling rate. Must be used along with block profile_mode
+#      --config string         Configuration file. Takes precedence over default values, but is overridden to values set with environment variables and flags.
+#      --profile_mode string   Enable profiling mode, one of [cpu, mem, mutex, block]
+
+version: "3.2"
+
+networks:
+  dgraph:
+
+volumes:
+  dgraphzero-volume:
+  dgraphserver-volume:
+  
+services:
+  zero:
+    image: dgraph/dgraph:latest
+    volumes:
+      - dgraphzero-volume:/dgraph
+    ports:
+      - 6080:6080      
+    networks:
+      - dgraph
+    restart: on-failure  
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - node.labels.dmz != true
+    command: dgraph zero --port_offset -2000 --my=zero:5080 --idx 1
+    
+# ---------------------------------------------------------    
+
+#  dgraph server [flags]
+#
+#Flags:
+#      --bindall                          Use 0.0.0.0 instead of localhost to bind to all addresses on local machine. (default true)
+#      --custom_tokenizers string         Comma separated list of tokenizer plugins
+#      --debugmode                        enable debug mode for more debug information
+#      --expand_edge                      Enables the expand() feature. This is very expensive for large data loads because it doubles the number of mutations going on in the system. (default true)
+#      --export string                    Folder in which to store exports. (default "export")
+#      --expose_trace                     Allow trace endpoint to be accessible from remote
+#  -h, --help                             help for server
+#      --idx uint                         Optional Raft ID that this server will use to join RAFT groups.
+#      --memory_mb float                  Estimated memory the process can take. Actual usage would be slightly more than specified here. (default -1)
+#      --my string                        IP_ADDRESS:PORT of this server, so other Dgraph servers can talk to this.
+#      --nomutations                      Don't allow mutations on this server.
+#      --pending_proposals int            Number of pending mutation proposals. Useful for rate limiting. (default 2000)
+#  -o, --port_offset int                  Value added to all listening port numbers. [Internal=7080, HTTP=8080, Grpc=9080]
+#      --posting_tables string            Specifies how Badger LSM tree is stored. Options are loadtoram, memorymap and fileio; which consume most to least RAM while providing best to worst performance respectively. (default "loadtoram")
+#  -p, --postings string                  Directory to store posting lists. (default "p")
+#      --sc uint                          Max number of pending entries in wal after which snapshot is taken (default 1000)
+#      --tls_ca_certs string              CA Certs file path.
+#      --tls_cert string                  Certificate file path.
+#      --tls_cert_key string              Certificate key file path.
+#      --tls_cert_key_passphrase string   Certificate key passphrase.
+#      --tls_client_auth string           Enable TLS client authentication
+#      --tls_max_version string           TLS max version. (default "TLS12")
+#      --tls_min_version string           TLS min version. (default "TLS11")
+#      --tls_on                           Use TLS connections with clients.
+#      --tls_use_system_ca                Include System CA into CA Certs.
+#      --trace float                      The ratio of queries to trace.
+#  -w, --wal string                       Directory to store raft write-ahead logs. (default "w")
+#  -z, --zero string                      IP_ADDRESS:PORT of Dgraph zero. (default "localhost:7080")
+#
+#Global Flags:
+#      --block_rate int        Block profiling rate. Must be used along with block profile_mode
+#      --config string         Configuration file. Takes precedence over default values, but is overridden to values set with environment variables and flags.
+#      --profile_mode string   Enable profiling mode, one of [cpu, mem, mutex, block]
+
+  server_1:
+    image: dgraph/dgraph:latest
+    hostname: "server_1"
+    volumes:
+      - dgraphserver-volume:/dgraph
+    ports:
+      - 8180:8180
+    networks:
+      - dgraph
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - node.labels.dmz != true
+    command: dgraph server --my=server_1:7180 --memory_mb=2048 --zero=zero:5080 -o 100
+
+  server_2:
+    image: dgraph/dgraph:latest
+    hostname: "server_2"
+    volumes:
+      - dgraphserver-volume:/dgraph
+    ports:    
+      - 8280:8280
+    networks:
+      - dgraph
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - node.labels.dmz != true
+    command: dgraph server --my=server_2:7280 --memory_mb=2048 --zero=zero:5080 -o 200
+
+
+  server_3:
+    image: dgraph/dgraph:latest
+    hostname: "server_3"
+    volumes:
+      - dgraphserver-volume:/dgraph
+    ports:   
+      - 8380:8380
+    networks:
+      - dgraph
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - node.labels.dmz != true
+    command: dgraph server --my=server_3:7380 --memory_mb=2048 --zero=zero:5080 -o 300
+    
+# ---------------------------------------------------------
+
+  server_ui:
+    image: dgraph/dgraph:latest
+    hostname: "server_ui"
+    ports:
+      - 8481:8081
+    networks:
+      - dgraph
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - node.labels.dmz != true 
+    command: dgraph-ratel      
