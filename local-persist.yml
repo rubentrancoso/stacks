@@ -1,0 +1,15 @@
+version: "3.2"
+services:
+  local-persist:
+    image: cwspear/docker-local-persist-volume-plugin:latest
+    restart: on-failure  
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+          - node.labels.dmz != true
+    volumes:
+      - /run/docker/plugins:/run/docker/plugins
+      - /mnt/data/volumes/json:/var/lib/docker/plugin-data
+      - /mnt/data/volumes:/mnt/data/volumes
