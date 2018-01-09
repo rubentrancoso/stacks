@@ -102,7 +102,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=servera:7180 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=2 -o 100
+    command: dgraph server --my=servera:7180 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=2 --port_offset 100
 
   serverb:
     depends_on:
@@ -123,7 +123,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=servera:7280 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=3 -o 200
+    command: dgraph server --my=servera:7280 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=3 --port_offset 200
 
 
   serverc:
@@ -145,7 +145,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=servera:7380 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=4  -o 300
+    command: dgraph server --my=servera:7380 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=4 --port_offset 300
     
 # ---------------------------------------------------------
 
