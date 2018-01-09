@@ -104,7 +104,8 @@ services:
           - node.role == worker
           - node.labels.dmz != true
 #          - node.labels.name == worker1
-    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=2
+#    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=2
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --idx=2
 
   serverb:
     depends_on:
@@ -126,7 +127,8 @@ services:
           - node.role == worker
           - node.labels.dmz != true
 #          - node.labels.name == worker1
-    command: dgraph server --my=serverb:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=3
+#    command: dgraph server --my=serverb:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=3
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --idx=3
 
 
   serverc:
@@ -149,7 +151,8 @@ services:
           - node.role == worker
           - node.labels.dmz != true
 #          - node.labels.name == worker1
-    command: dgraph server --my=serverc:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=4
+#    command: dgraph server --my=serverc:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=4
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --idx=4
     
 # ---------------------------------------------------------
 
