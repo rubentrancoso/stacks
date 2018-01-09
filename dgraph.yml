@@ -3,12 +3,7 @@ version: "3.2"
 networks:
   dgraph:
 
-volumes:
-  vgraphzero:
-  vgrapha:
-  vgraphb:
-  vgraphc:
-  
+
 services:
   zero:
     image: dgraph/dgraph:master
@@ -29,8 +24,6 @@ services:
     
 
   servera:
-    depends_on:
-      - zero
     image: dgraph/dgraph:master
     hostname: servera
     volumes:
@@ -48,9 +41,8 @@ services:
           - node.labels.dmz != true
     command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=2
 
-  serverb:
-    depends_on:
-      - zero  
+
+  serverb: 
     image: dgraph/dgraph:master
     hostname: serverb
     volumes:
@@ -69,9 +61,7 @@ services:
     command: dgraph server --my=serverb:7080 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=3
 
 
-  serverc:
-    depends_on:
-      - zero  
+  serverc: 
     image: dgraph/dgraph:master
     hostname: serverc
     volumes:
@@ -89,7 +79,7 @@ services:
           - node.labels.dmz != true
     command: dgraph server --my=serverc:7080 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=4
     
-# ---------------------------------------------------------
+
 
   serverui:
     image: dgraph/dgraph:master
@@ -105,3 +95,22 @@ services:
           - node.role == worker
           - node.labels.dmz != true
     command: dgraph-ratel -addr servera:8180 
+    
+    
+volumes:
+  vgraphzero:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /mnt/data/volumes/vgraphzero  
+  vgrapha:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /mnt/data/volumes/vgrapha  
+  vgraphb:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /mnt/data/volumes/vgraphb  
+  vgraphc:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /mnt/data/volumes/vgraphc      
