@@ -42,7 +42,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-#          - node.labels.name == worker1
+          - node.labels.name == worker1
     command: dgraph zero --port_offset -2000 --my=zero:5080 --bindall=true --replicas 3 --idx=1
     
 # ---------------------------------------------------------    
@@ -103,7 +103,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-#          - node.labels.name == worker1
+          - node.labels.name == worker1
 #    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=2
     command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --idx=2
 
@@ -126,7 +126,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-#          - node.labels.name == worker1
+          - node.labels.name == worker1
 #    command: dgraph server --my=serverb:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=3
     command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --idx=3
 
@@ -150,7 +150,7 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-#          - node.labels.name == worker1
+          - node.labels.name == worker1
 #    command: dgraph server --my=serverc:7080 --memory_mb=2048 --zero=zero:5080 --debugmode --bindall=true --idx=4
     command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --idx=4
     
@@ -169,5 +169,5 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-#          - node.labels.name == worker1
+          - node.labels.name == worker1
     command: dgraph-ratel -addr servera:8180 
