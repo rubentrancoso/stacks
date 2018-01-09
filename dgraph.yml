@@ -87,11 +87,11 @@ services:
     depends_on:
       - zero
     image: dgraph/dgraph:master
-    hostname: "servera"
+    hostname: servera
     volumes:
       - vgrapha:/dgraph
     ports:
-      - 7180:7180
+      - 7180:7080
       - 8180:8180
       - 9180:9180
     networks:
@@ -102,17 +102,17 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=servera:7180 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=2 --port_offset 100
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=2 --port_offset 100
 
   serverb:
     depends_on:
       - zero  
     image: dgraph/dgraph:master
-    hostname: "serverb"
+    hostname: serverb
     volumes:
       - vgraphb:/dgraph
     ports:    
-      - 7280:7280
+      - 7280:7080
       - 8280:8280
       - 9280:9280
     networks:
@@ -123,18 +123,18 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=servera:7280 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=3 --port_offset 200
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=3 --port_offset 200
 
 
   serverc:
     depends_on:
       - zero  
     image: dgraph/dgraph:master
-    hostname: "serverc"
+    hostname: serverc
     volumes:
       - vgraphc:/dgraph
     ports:   
-      - 7380:7380
+      - 7380:7080
       - 8380:8380
       - 9380:9380
     networks:
@@ -145,13 +145,13 @@ services:
         constraints:
           - node.role == worker
           - node.labels.dmz != true
-    command: dgraph server --my=servera:7380 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=4 --port_offset 300
+    command: dgraph server --my=servera:7080 --memory_mb=2048 --zero=zero:5080 --bindall=true --idx=4 --port_offset 300
     
 # ---------------------------------------------------------
 
   serverui:
     image: dgraph/dgraph:master
-    hostname: "serverui"
+    hostname: serverui
     ports:
       - 8481:8081
     networks:
